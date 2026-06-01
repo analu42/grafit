@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter.font import Font
-import matplotlib as mpl
-import numpy as np
 
 root = tk.Tk()
 
