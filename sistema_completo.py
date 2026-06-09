@@ -47,22 +47,21 @@ class App(ctk.CTk): #"cópia" do root = ctk.CTk
         titulo = ctk.CTkLabel(self.barra_lateral, text="GRAFIT™", font=ctk.CTkFont(size=25, weight="bold")) # Grafit
         titulo.grid(row=0, column=0, padx=(10, 10), pady=(10, 10), sticky="nw")
 
-        tipo = ctk.CTkOptionMenu(self.barra_lateral, values=["MRU", "MRUV"]) # Escolher tipo de gráfico
-        tipo.grid(row=1, column=0, padx=(10, 20), pady=(30, 10))
+        self.tipo = ctk.CTkOptionMenu(self.barra_lateral, values=["MRU", "MRUV"], command=self.escolher_grafico) # Escolher tipo de gráfico
+        self.tipo.grid(row=1, column=0, padx=(10, 20), pady=(10, 10))
 
-'''     if tipo == "MRU":
-            mru = ctk.CTkEntry(self.barra_lateral, text="Velocidade")
-            mru.grid(row=1, column=1, padx=(10, 20), pady=(30, 10))
-        elif tipo == "MRUV":
-            mruv = ctk.CTkEntry(self.barra_lateral, text="Tempo")
-            mruv.grid(row=1, column=2, padx=(10, 20), pady=(30, 10))'''
+        # Área onde os campos serão criados
+        self.area_parametros = ctk.CTkFrame(self.barra_lateral, fg_color="transparent")
+        self.area_parametros.grid(row=2, column=0, padx=0, pady=0)
 
+        # Cria os campos da opção inicial
+        self.escolher_grafico(self.tipo.get())
 
         modo = ctk.CTkSwitch(self.barra_lateral, text="Modo Escuro") # Alternar entre modo claro ou escuro
-        modo.grid(row=2, column=0, padx=(10, 10), sticky="w")
+        modo.grid(row=3, column=0, padx=(10, 10), sticky="w")
 
         botao = ctk.CTkButton(self.barra_lateral, text="Gerar") # Botão para gerar o gráfico
-        botao.grid(row=2, column=99, padx=(10, 10),  sticky="e")
+        botao.grid(row=3, column=99, padx=(10, 10),  sticky="e")
 
     def construir_aba_perfil(self):
         pass
@@ -73,6 +72,32 @@ class App(ctk.CTk): #"cópia" do root = ctk.CTk
     def construir_aba_sistema(self):
         pass
 
+    def escolher_grafico(self, escolha):
+        for widget in self.area_parametros.winfo_children():
+            widget.destroy()
+
+        if escolha == "MRU":
+
+            velocidade = ctk.CTkEntry(
+                self.area_parametros,
+                placeholder_text="Velocidade"
+            )
+            velocidade.grid(row=0, column=2, padx=5, pady=5)
+
+
+        elif escolha == "MRUV":
+
+            tempo = ctk.CTkEntry(
+                self.area_parametros,
+                placeholder_text="Tempo"
+            )
+            tempo.grid(row=0, column=0, padx=5, pady=5)
+
+            aceleracao = ctk.CTkEntry(
+                self.area_parametros,
+                placeholder_text="Aceleração"
+            )
+            aceleracao.grid(row=1, column=0, padx=5, pady=5)
 
 janela = App()#
 janela.mainloop()
