@@ -1,5 +1,7 @@
 #Agora com POO e mais bonitinho
 import customtkinter as ctk
+import matplotlib as mpl
+import numpy as np
 
 ctk.set_appearance_mode("System") #define o modo (System, Light ou Dark)
 ctk.set_default_color_theme("blue") #blue, green, dark-blue
@@ -50,12 +52,14 @@ class App(ctk.CTk): #"cópia" do root = ctk.CTk
         self.tipo = ctk.CTkOptionMenu(self.barra_lateral, values=["MRU", "MRUV"], command=self.escolher_grafico) # Escolher tipo de gráfico
         self.tipo.grid(row=1, column=0, padx=(10, 20), pady=(10, 10))
 
+
         # Área onde os campos serão criados
         self.area_parametros = ctk.CTkFrame(self.barra_lateral, fg_color="transparent")
         self.area_parametros.grid(row=2, column=0, padx=0, pady=0)
 
         # Cria os campos da opção inicial
         self.escolher_grafico(self.tipo.get())
+
 
         modo = ctk.CTkSwitch(self.barra_lateral, text="Modo Escuro") # Alternar entre modo claro ou escuro
         modo.grid(row=3, column=0, padx=(10, 10), sticky="w")
@@ -76,28 +80,67 @@ class App(ctk.CTk): #"cópia" do root = ctk.CTk
         for widget in self.area_parametros.winfo_children():
             widget.destroy()
 
-        if escolha == "MRU":
+        self.area_graph = ctk.CTkFrame(self.barra_lateral, fg_color="transparent")
+        self.area_graph.grid(row=2, column=0, padx=0, pady=0)
 
-            velocidade = ctk.CTkEntry(
-                self.area_parametros,
-                placeholder_text="Velocidade"
-            )
-            velocidade.grid(row=0, column=2, padx=5, pady=5)
+        if escolha == "MRU":
+            self.graph = ctk.CTkOptionMenu(self.area_graph, values=["POSIÇÃO", "ACELERAÇÃO", "VELOCIDADE"],
+                                           command=self.escolher_grafico_2)  # Escolher tipo de gráfico
+            self.graph.grid(row=2, column=0, padx=(0, 0), pady=(0, 0))
 
 
         elif escolha == "MRUV":
+            self.graph = ctk.CTkOptionMenu(self.area_graph, values=["POSIÇÃO", "ACELERAÇÃO", "VELOCIDADE"],
+                                           command=self.escolher_grafico_2)  # Escolher tipo de gráfico
+            self.graph.grid(row=2, column=0, padx=(0, 0), pady=(0, 0))
+
+
+    def escolher_grafico_2(self, escolha):
+        for widget in self.area_graph.winfo_children():
+            widget.destroy()
+
+        if escolha == "POSIÇÃO":
+
+            velocidade = ctk.CTkEntry(
+                self.escolher_grafico,
+                placeholder_text="Velocidade"
+            )
+            velocidade.grid(row=0, column=2, padx=5, pady=5)
 
             tempo = ctk.CTkEntry(
                 self.area_parametros,
                 placeholder_text="Tempo"
             )
-            tempo.grid(row=0, column=0, padx=5, pady=5)
+            tempo.grid(row=0, column=2, padx=5, pady=5)
+
+
+        elif escolha == "ACELERAÇÃO":
 
             aceleracao = ctk.CTkEntry(
                 self.area_parametros,
                 placeholder_text="Aceleração"
             )
-            aceleracao.grid(row=1, column=0, padx=5, pady=5)
+            aceleracao.grid(row=0, column=2, padx=5, pady=5)
+
+            tempo = ctk.CTkEntry(
+                self.area_parametros,
+                placeholder_text="Tempo"
+            )
+            tempo.grid(row=0, column=2, padx=5, pady=5)
+
+        elif escolha == "VELOCIDADE":
+
+            velocidade = ctk.CTkEntry(
+                self.area_parametros,
+                placeholder_text="Velocidade"
+            )
+            velocidade.grid(row=0, column=1, padx=5, pady=5)
+
+            tempo = ctk.CTkEntry(
+                self.area_parametros,
+                placeholder_text="Tempo"
+            )
+            tempo.grid(row=0, column=2, padx=5, pady=5)
 
 janela = App()#
 janela.mainloop()
